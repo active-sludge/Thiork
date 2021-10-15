@@ -3,7 +3,7 @@ Welcome BOUN SWE 573 class project.
 
 <br />
 <p align="center">
-    <img src=“/thiork_logo.png" alt="Logo" width=“200>
+    <img src=thiork_logo.png alt="Logo" width=“200>
 
 This project was prepared to demonstrate how genius and handsome I am. 
 
