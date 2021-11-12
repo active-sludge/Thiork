@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'thiorkApp',
     'pages.apps.PagesConfig',
+    'servitiums.apps.ServitiumsConfig',
+    'eventums.apps.EventumsConfig',
+    'moderators.apps.ModeratorsConfig',
 ]
 
 MIDDLEWARE = [
@@ -121,6 +124,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'ThiorkProject/static')
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
