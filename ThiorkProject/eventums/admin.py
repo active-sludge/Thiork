@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Eventum, Attendance
 
-# Register your models here.
+admin.site.register(Eventum)
+admin.site.register(Attendance)

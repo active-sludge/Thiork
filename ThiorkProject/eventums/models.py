@@ -22,3 +22,6 @@ class Attendance(models.Model):
     eventum = models.ForeignKey(Eventum, on_delete=models.CASCADE)
     attendee = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.eventum.title

@@ -22,3 +22,6 @@ class Inquiry(models.Model):
     servitium = models.ForeignKey(Servitium, on_delete=models.CASCADE)
     receiver = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.servitium.title
