@@ -1,63 +1,36 @@
 {% load static %}
 <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+  <header class="p-3 bg-dark text-white">
     <div class="container">
-      <a class="navbar-brand" href="{% url 'index' %}">
-        <img src="{% static 'img/logo.png' %}" class="logo" alt="" width="50">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <ul class="navbar-nav">
-          <li {% if '/' == request.path %}
-                  class="nav-item active mr-3"
-                  {% else %}
-                  class="nav-item mr-3"
-                  {% endif %}
-          >
-            <a class="nav-link" href="{% url 'index' %}">Home</a>
-          </li>
-            <li {% if '/about' == request.path %}
-                  class="nav-item active mr-3"
-                  {% else %}
-                  class="nav-item mr-3"
-                  {% endif %}
-            >
-            <a class="nav-link" href="{% url 'about' %}">About</a>
-            </li>
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+          <img src="{% static 'thiork_logo.png' %}" alt="Thiork" width="96" height="32">
+        </a>
 
-            <li {% if '/servitiums/' == request.path %}
-                  class="nav-item active mr-3"
-                  {% else %}
-                  class="nav-item mr-3"
-                  {% endif %}
-            >
-            <a class="nav-link" href="{% url 'servitiums' %}">Servitiums</a>
-            </li>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="{% url 'servitiums' %}" class="nav-link px-2 text-white">Servitiums</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">Eventums</a></li>
+              <li><a href="{% url 'about' %}" class="nav-link px-2 text-white">About</a></li>
 
-            </li>
-          <li {% if '/eventums' == request.path %}
-                  class="nav-item active mr-3"
-                  {% else %}
-                  class="nav-item mr-3"
-                  {% endif %}
-            >
-{#            <a class="nav-link" href="{% url 'eventums' %}">Eventums</a>#}
-          </li>
-        </ul>
-
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item mr-3">
-            <a class="nav-link" href="register.html">
-              <i class="fas fa-user-plus"></i> Register</a>
-          </li>
-          <li class="nav-item mr-3">
-            <a class="nav-link" href="login.html">
-              <i class="fas fa-sign-in-alt"></i>
-              Login</a>
-          </li>
+            {% if user.is_authenticated %}
+                <li class=""nav-link px-2 text-white">
+                    <a href="#" onclick="$('#signOutBtn').click()" class="nav-link">Logout</a>
+                    <form style='display: none;' method="POST" action="{% url 'logoutuser' %}">
+                        {% csrf_token %}
+                        <button id="signOutBtn" type="submit">Logout</button>
+                    </form>
+                </li>
+            {% else %}
+                 <li class=""nav-link px-2 text-white">
+                    <a class="nav-link" href="{% url 'signupuser' %}">
+                    <i class="fas fa-user-plus"></i> Register</a>
+                </li>
+                <li class=""nav-link px-2 text-white">
+                    <a class="nav-link" href="{% url 'loginuser' %}">
+                    <i class="fas fa-sign-in-alt"></i> Login</a>
+                </li>
+            {% endif %}
         </ul>
       </div>
     </div>
-  </nav>
+  </header>
