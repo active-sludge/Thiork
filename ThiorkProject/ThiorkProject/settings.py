@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-(kr7jcu6#reztg@ddy1ffnc+7gdmmxd)a&ysr1o&)-@@9@fuil
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '0.0.0.0'
+]
 
 
 # Application definition
@@ -80,11 +82,12 @@ WSGI_APPLICATION = 'ThiorkProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'thiorkdb',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': 'localhost'
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432
     }
 }
 
