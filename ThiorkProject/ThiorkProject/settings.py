@@ -40,10 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'thiorkApp',
-    'pages.apps.PagesConfig',
-    'servitiums.apps.ServitiumsConfig',
-    'eventums.apps.EventumsConfig',
-    'moderators.apps.ModeratorsConfig',
 ]
 
 MIDDLEWARE = [
