@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-(kr7jcu6#reztg@ddy1ffnc+7gdmmxd)a&ysr1o&)-@@9@fuil
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '0.0.0.0'
+    'localhost',
+    '0.0.0.0',
 ]
 
 
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'thiorkApp',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +139,6 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+

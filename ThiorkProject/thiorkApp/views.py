@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from psycopg2 import IntegrityError
+from .forms import ServitiumForm
 
 
 def index(request):
@@ -58,4 +59,5 @@ def servitiums(request):
 
 
 def create_servitium(request):
-    return render(request, 'pages/index.html')
+    form = ServitiumForm()
+    return render(request, 'servitiums/create_servitium.html', {'form': form})
