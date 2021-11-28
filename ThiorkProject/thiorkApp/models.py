@@ -1,10 +1,21 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
+
+
+class Vectis(AbstractUser):
+    pass
+    credit = models.IntegerField(default=5)
+    photo = models.ImageField(blank=True)
+    bio = models.TextField(blank=True)
+    email = models.EmailField(blank=True)
+
+    def __str__(self):
+        return self.username
 
 
 class Servitium(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='servitium_owner')
-    receiver = models.ManyToManyField(User, through='Inquiry', through_fields=('servitium', 'receiver'))
+    owner = models.ForeignKey(Vectis, on_delete=models.DO_NOTHING, related_name='servitium_owner')
+    receiver = models.ManyToManyField(Vectis, through='Inquiry', through_fields=('servitium', 'receiver'))
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     publish_date = models.DateTimeField(auto_now_add=True, blank=True)
@@ -20,7 +31,7 @@ class Servitium(models.Model):
 
 class Inquiry(models.Model):
     servitium = models.ForeignKey(Servitium, on_delete=models.CASCADE)
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE)
+    receiver = models.ForeignKey(Vectis, on_delete=models.CASCADE)
     status = models.CharField(max_length=64)
 
     def __str__(self):
@@ -28,8 +39,8 @@ class Inquiry(models.Model):
 
 
 class Eventum(models.Model):
-    host = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='eventum_host')
-    attendes = models.ManyToManyField(User, through='Attendance', through_fields=('eventum', 'attendee'))
+    host = models.ForeignKey(Vectis, on_delete=models.DO_NOTHING, related_name='eventum_host')
+    attendes = models.ManyToManyField(Vectis, through='Attendance', through_fields=('eventum', 'attendee'))
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     date = models.DateTimeField(auto_now_add=True, blank=True)
@@ -45,19 +56,11 @@ class Eventum(models.Model):
 
 class Attendance(models.Model):
     eventum = models.ForeignKey(Eventum, on_delete=models.CASCADE)
-    attendee = models.ForeignKey(User, on_delete=models.CASCADE)
+    attendee = models.ForeignKey(Vectis, on_delete=models.CASCADE)
     status = models.CharField(max_length=64)
 
     def __str__(self):
         return self.eventum.title
 
 
-class Vectis(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    credit = models.IntegerField(default=5)
-    photo = models.ImageField(blank=True)
-    bio = models.TextField(blank=True)
-    email = models.EmailField(blank=True)
 
-    def __str__(self):
-        return self.user.username

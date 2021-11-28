@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from psycopg2 import IntegrityError
 from .forms import ServitiumForm
 from .models import Servitium, Vectis
+from django.template import Context
 
 
 def index(request):
@@ -22,10 +23,9 @@ def sign_up_user(request):
     else:
         if request.POST['password1'] == request.POST['password2']:
             try:
-                user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
-                vectis = Vectis.objects.create(user=user)
+                vectis = Vectis.objects.create_user(request.POST['username'], password=request.POST['password1'])
                 vectis.save()
-                login(request, vectis.user)
+                login(request, vectis)
                 return redirect('index')
             except IntegrityError:
                 return render(request, 'pages/signup.html',
@@ -48,7 +48,7 @@ def log_in_user(request):
         return render(request, 'pages/login.html', {'form': AuthenticationForm()})
     else:
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
-        vectis = Vectis.objects.first(user=user)
+        vectis = Vectis.objects.get(user=user)
         if user is None:
             return render(request, 'pages/login.html',
                           {'form': AuthenticationForm(), 'error': 'Username and password did not match.'})
