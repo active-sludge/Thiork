@@ -48,6 +48,7 @@ def log_in_user(request):
         return render(request, 'pages/login.html', {'form': AuthenticationForm()})
     else:
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        vectis = Vectis.objects.first(user=user)
         if user is None:
             return render(request, 'pages/login.html',
                           {'form': AuthenticationForm(), 'error': 'Username and password did not match.'})

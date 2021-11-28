@@ -3,16 +3,11 @@
 
 <nav class="navbar navbar-expand-md navbar-light bg-dark">
     <div class="container">
-        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-          <img src="{% static 'thiork_logo.png' %}" alt="Thiork" width="96" height="32">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="float-left">
             <ul class="navbar-nav mr-auto">
-
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <img src="{% static 'thiork_logo.png' %}" alt="Thiork" width="96" height="32">
+                </a>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link px-2 text-white" href="{% url 'servitiums' %}">Servitiums</a>
@@ -20,15 +15,21 @@
                     <li class="nav-item">
                         <a class="nav-link px-2 text-white" href="{% url 'create_servitium' %}">Create Servitium</a>
                     </li>
-
                 {% endif %}
-
             </ul>
+        </div>
 
+        <div class="float-right">
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a href="#" onclick="$('#signOutBtn').click()" class="nav-link px-2 text-white">Logout</a>
+                        <a class="nav-link px-2 text-white" href="/"><i class="bi bi-hourglass"> 5h </i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-2 text-white" href="/">Hello, {{ user.get_username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" onclick="$('#signOutBtn').click()" class="nav-link px-2 text-white"><i class="bi bi-door-closed"></i></a>
                         <form style='display: none;' method="POST" action="{% url 'logoutuser' %}">
                             {% csrf_token %}
                             <button id="signOutBtn" type="submit">Logout</button>
@@ -42,11 +43,7 @@
                         <a class="nav-link px-2 text-white" href="{% url 'loginuser' %}">Login</a>
                     </li>
                 {% endif %}
-             </ul>
-
-
+            </ul>
         </div>
-
-
     </div>
 </nav>
