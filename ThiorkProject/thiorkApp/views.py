@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from psycopg2 import IntegrityError
 from .forms import ServitiumForm
+from .models import Servitium
 
 
 def index(request):
@@ -55,7 +56,8 @@ def log_in_user(request):
 
 
 def servitiums(request):
-    return render(request, 'servitiums/servitiums.html')
+    all_servitiums = Servitium.objects.all()
+    return render(request, 'servitiums/servitiums.html', {'all_servitiums': all_servitiums})
 
 
 def create_servitium(request):

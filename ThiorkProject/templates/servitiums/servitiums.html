@@ -10,96 +10,48 @@
 <body>
 {% block content %}
 
-  <!-- Breadcrumb -->
-  <section id="bc" class="mt-3">
-    <div class="container">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="{% url 'index' %}">
-              <i class="fas fa-home"></i> Home</a>
-          </li>
-          <li class="breadcrumb-item active"> Browse Servitiums</li>
-        </ol>
-      </nav>
-    </div>
-  </section>
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">
+                {% if all_servitiums %}
+                    <h1> {{ all_servitiums.count }} Servitium{{ all_servitiums.count|pluralize }}</h1>
+                {% else %}
+                    <h1> Servitiums </h1>
+                {% endif %}
+            </h1>
+            </p>
+        </div>
+    </section>
 
-    <!-- Search -->
-
-
-
-  <!-- Listings -->
-  <section id="listings" class="py-5">
-    <div class="container">
-      <h3 class="text-center mb-3">Latest Servitiums</h3>
-      <div class="row">
-
-        <!-- Listing 3 -->
-        <div class="col-md-6 col-lg-4 mb-4">
-          <div class="card listing-preview">
-            <img class="card-img-top" src={% static 'baklava_lesson.jpeg' %} alt="">
-            <div class="card-body">
-              <div class="listing-heading text-center">
-                <h4 class="text-primary">Baklava lesson</h4>
-                <p>
-                  <i class="fas fa-map-marker text-secondary"></i> Şişli, İstanbul</p>
-              </div>
-              <hr>
-              <div class="row py-2 text-secondary">
-                <div class="col-6">
-                  <i class="fas fa-th-large"></i> Date: 06.12.2021</div>
-                <div class="col-6">
-                  <i class="fas fa-car"></i> Credit: 3h </div>
-              </div>
-              <div class="row py-2 text-secondary">
-                <div class="col-6">
-                  <i class="fas fa-bed"></i> By: Flenn Jimenez</div>
-                <div class="col-6">
-                  <i class="fas fa-bath"></i> Posted 5 days ago</div>
-              </div>
-              <hr>
-              <div class="row py-2 text-secondary">
-                <div class="col-6">
-                  <i class="fas fa-user"></i> By: Flenn Jimenez</div>
-              </div>
-              <div class="row text-secondary pb-2">
-                <div class="col-6">
-                  <i class="fas fa-clock"></i> Posted 5 days ago</div>
-              </div>
-              <hr>
-              <a href="listing.html" class="btn btn-primary btn-block">More Info</a>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                {% if all_servitiums %}
+                    {% for servitium in all_servitiums %}
+                        <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                                <img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="{{ servitium.image.url }}" data-holder-rendered="true">
+                                <div class="card-body">
+                                    <p>{{ servitium.description }}</p>
+                                    <p>Given by: {{ servitium.owner }}</p>
+                                    <p>Published at: {{ servitium.publish_date|date:'D, d M Y' }}</p>
+                                    <p>Location: {{ servitium.location }}</p>
+                                    <p>Credit: {{ servitium.credit }} h</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">View Details</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">Request Servitium!</button>
+                                        </div>
+                                        <small class="text-muted">{{ servitium.status }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
-          </div>
         </div>
-
-                <div cslass="row">
-        <div class="col-md-12">
-          <ul class="pagination">
-            <li class="page-item disabled">
-              <a class="page-link" href="#">&laquo;</a>
-            </li>
-            <li class="page-item active">
-              <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">2</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">3</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">&raquo;</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      </div>
     </div>
-
-  </section>
-
 
 {% endblock %}
 </body>
