@@ -48,7 +48,6 @@ def log_in_user(request):
         return render(request, 'pages/login.html', {'form': AuthenticationForm()})
     else:
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
-        vectis = Vectis.objects.get(user=user)
         if user is None:
             return render(request, 'pages/login.html',
                           {'form': AuthenticationForm(), 'error': 'Username and password did not match.'})
@@ -68,12 +67,13 @@ def create_servitium(request):
         return render(request, 'servitiums/create_servitium.html', {'form': servitium_form})
     else:
         try:
-            form = ServitiumForm(request.POST)
-            new_servitium = form.save(commit=False)
-            new_servitium.status = 'Available'
-            new_servitium.owner = request.user
-            new_servitium.save()
-            return redirect('servitiums')
+            form = ServitiumForm(request.POST, request.FILES)
+            if form.is_valid():
+                new_servitium = form.save(commit=False)
+                new_servitium.status = 'Available'
+                new_servitium.owner = request.user
+                new_servitium.save()
+                return redirect('servitiums')
         except ValueError:
             return render(request, 'servitiums/create_servitium.html',
                           {'form': ServitiumForm(), 'error': 'Bad data entry. Try again.'})
