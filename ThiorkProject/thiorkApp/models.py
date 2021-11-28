@@ -54,6 +54,7 @@ class Attendance(models.Model):
 
 class Vectis(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    credit = models.IntegerField(default=5)
     photo = models.ImageField(blank=True)
     bio = models.TextField(blank=True)
     email = models.EmailField(blank=True)
