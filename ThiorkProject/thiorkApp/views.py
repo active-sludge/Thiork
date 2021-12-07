@@ -2,7 +2,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from psycopg2 import IntegrityError
 from .forms import ServitiumForm
 from .models import Servitium, Vectis
@@ -77,3 +77,17 @@ def create_servitium(request):
         except ValueError:
             return render(request, 'servitiums/create_servitium.html',
                           {'form': ServitiumForm(), 'error': 'Bad data entry. Try again.'})
+
+
+def servitium_detail(request, servitium_pk):
+    servitium = get_object_or_404(Servitium, id=servitium_pk)
+    if request.method == 'GET':
+        form = ServitiumForm(instance=servitium)
+        return render(request, 'servitiums/servitium.html', {'servitium': servitium, 'form': form})
+    else:
+        try:
+            form = ServitiumForm(request.POST, instance=servitium)
+            form.save()
+            return redirect('servitiums')
+        except ValueError:
+            pass

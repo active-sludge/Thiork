@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block content %}
+
 <head>
     <meta charset="UTF-8">
     <title>Servitium</title>
 </head>
+
 <body>
-<h1>Servitium</h1>
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5">
+            <h1>{{ servitium.title }}</h1>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5">
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            <img src="{{ servitium.image.url }}" class="img-fluid" alt="Responsive image">
+            <p>{{ servitium.description }}</p>
+            <p>Given by: {{ servitium.owner }}</p>
+            <p>Published at: {{ servitium.publish_date|date:'D, d M Y' }}</p>
+            <p>Location: {{ servitium.location }}</p>
+            <p>Credit: {{ servitium.credit }} h</p>
+
+            {% if user != servitium.owner %}
+                <button type="button" class="btn btn-primary">Request Servitium!</button>
+            {% endif%}
+        </div>
+    </div>
 </body>
-</html>
+
+{% endblock %}
