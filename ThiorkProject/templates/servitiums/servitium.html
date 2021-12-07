@@ -24,13 +24,22 @@
 
             <img src="{{ servitium.image.url }}" class="img-fluid" alt="Responsive image">
             <p>{{ servitium.description }}</p>
+{#            <p>{{ servitium.id }}</p>#}
             <p>Given by: {{ servitium.owner }}</p>
             <p>Published at: {{ servitium.publish_date|date:'D, d M Y' }}</p>
             <p>Location: {{ servitium.location }}</p>
             <p>Credit: {{ servitium.credit }} h</p>
+            <p>Credit: {{ servitium.status }}</p>
 
             {% if user != servitium.owner %}
-                <button type="button" class="btn btn-primary">Request Servitium!</button>
+                {% if servitium.status == 'Available' %}
+                    <form method="POST" action="{% url 'request_servitium' servitium.id %}">
+                        {% csrf_token %}
+                        <button id="request_servitium" class="btn btn-primary">Request Servitium!</button>
+                    </form>
+                {% elif servitium.status == 'Pending' %}
+                    <button type="button" class="btn btn-info" disabled>Pending another user</button>
+                {% endif %}
             {% endif%}
         </div>
     </div>

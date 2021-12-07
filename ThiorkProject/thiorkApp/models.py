@@ -1,5 +1,14 @@
+from enum import Enum
+
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser
+
+
+class Status(Enum):
+    AVAILABLE = 'Available'
+    PENDING = 'Pending'
+    HANDSHAKEN = 'Handshaken'
+    COMPLETED = 'Completed'
 
 
 class Vectis(AbstractUser):

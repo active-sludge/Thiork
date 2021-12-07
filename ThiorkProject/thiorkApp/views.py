@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from psycopg2 import IntegrityError
 from .forms import ServitiumForm
-from .models import Servitium, Vectis
+from .models import Servitium, Vectis, Inquiry, Status
 from django.template import Context
 
 
@@ -91,3 +91,19 @@ def servitium_detail(request, servitium_pk):
             return redirect('servitiums')
         except ValueError:
             pass
+
+
+def request_servitium(request, servitium_pk):
+    print(request)
+    print(servitium_pk)
+    servitium = get_object_or_404(Servitium, pk=servitium_pk)
+    if request.method == 'POST':
+        inquiry = Inquiry()
+        inquiry.receiver = request.user
+        inquiry.servitium = servitium
+        inquiry.status = Status.PENDING.value
+        servitium.status = Status.PENDING.value
+
+        servitium.save()
+        inquiry.save()
+    return redirect('servitiums')
