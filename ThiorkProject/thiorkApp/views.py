@@ -83,7 +83,8 @@ def servitium_detail(request, servitium_pk):
     servitium = get_object_or_404(Servitium, id=servitium_pk)
     if request.method == 'GET':
         form = ServitiumForm(instance=servitium)
-        return render(request, 'servitiums/servitium.html', {'servitium': servitium, 'form': form})
+        inquiry = Inquiry.objects.get(servitium=servitium)
+        return render(request, 'servitiums/servitium.html', {'servitium': servitium, 'inquiry': inquiry, 'form': form})
     else:
         try:
             form = ServitiumForm(request.POST, instance=servitium)
@@ -94,16 +95,29 @@ def servitium_detail(request, servitium_pk):
 
 
 def request_servitium(request, servitium_pk):
-    print(request)
-    print(servitium_pk)
     servitium = get_object_or_404(Servitium, pk=servitium_pk)
     if request.method == 'POST':
-        inquiry = Inquiry()
-        inquiry.receiver = request.user
-        inquiry.servitium = servitium
-        inquiry.status = Status.PENDING.value
-        servitium.status = Status.PENDING.value
+        Inquiry.objects.create(servitium= servitium, receiver=request.user, status=Status.PENDING.value)
 
+        servitium.status = Status.PENDING.value
         servitium.save()
-        inquiry.save()
-    return redirect('servitiums')
+
+        message = 'You requested the Servitium. We will shared the contact info of the owner, if they accept your ' \
+                  'request. We will let you know. '
+    return render(request, 'servitiums/servitium.html', {'servitium': servitium, 'message': message})
+
+
+def accept_request(request, servitium_pk):
+    servitium = get_object_or_404(Servitium, pk=servitium_pk)
+    if request.method == 'POST':
+        inquiry = Inquiry.objects.get(servitium=servitium)
+        print(inquiry.receiver)
+        receiver = inquiry.receiver
+        receiver.credit -= servitium.credit
+
+        inquiry.status = Status.HANDSHAKEN.value
+        servitium.status = Status.HANDSHAKEN.value
+
+        message = 'You accepted the servitium request. Your contact info will be shared with the requester.'
+
+    return render(request, 'servitiums/servitium.html', {'servitium': servitium, 'inquiry': inquiry, 'message': message, 'status': 'Handshaken'})

@@ -20,6 +20,13 @@
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
                 </div>
+            {% elif status == 'Handshaken' %}
+                {% if user == servitium.receiver  %}
+                    <div class="alert alert-danger" role="alert">
+                        <p>Contact Info</p>
+                        <p>Contact Info</p>
+                    </div>
+                {% endif %}
             {% endif %}
 
             <img src="{{ servitium.image.url }}" class="img-fluid" alt="Responsive image">
@@ -31,6 +38,12 @@
             <p>Credit: {{ servitium.credit }} h</p>
             <p>Credit: {{ servitium.status }}</p>
 
+            {% if message %}
+                <div class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+
             {% if user != servitium.owner %}
                 {% if servitium.status == 'Available' %}
                     <form method="POST" action="{% url 'request_servitium' servitium.id %}">
@@ -39,6 +52,12 @@
                     </form>
                 {% elif servitium.status == 'Pending' %}
                     <button type="button" class="btn btn-info" disabled>Pending another user</button>
+                {% endif %}
+            {% elif user == servitium.owner %}
+                {% if servitium.status == 'Pending' %}
+                    <h3>{{ inquiry.receiver}} is requesting this servitium from you!</h3>
+                    <button type="button" class="btn btn-success">Accept Request!</button>
+                    <button type="button" class="btn btn-danger">Reject</button>
                 {% endif %}
             {% endif%}
         </div>

@@ -22,6 +22,7 @@ urlpatterns = [
     path('create_servitium', views.create_servitium, name='create_servitium'),
     path('servitium/<int:servitium_pk>', views.servitium_detail, name='servitium_detail'),
     path('servitium/<int:servitium_pk>/request', views.request_servitium, name='request_servitium'),
+    path('servitium/<int:servitium_pk>/accept', views.accept_request, name='accept_request')
 
     # Eventum
 
