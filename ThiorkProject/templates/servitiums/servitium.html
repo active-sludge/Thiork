@@ -20,10 +20,11 @@
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
                 </div>
-            {% elif status == 'Handshaken' %}
-                {% if user == servitium.receiver  %}
-                    <div class="alert alert-danger" role="alert">
-                        <p>Contact Info</p>
+            {% elif inquiry.status == 'Handshaken' %}
+                {% if user == inquiry.receiver  %}
+                    <div class="alert alert-success" role="alert">
+                        <h3>Handshaken!</h3>
+                        <p>You can reach to the servitium owner now with below information.</p>
                         <p>Contact Info</p>
                     </div>
                 {% endif %}
@@ -36,7 +37,7 @@
             <p>Published at: {{ servitium.publish_date|date:'D, d M Y' }}</p>
             <p>Location: {{ servitium.location }}</p>
             <p>Credit: {{ servitium.credit }} h</p>
-            <p>Credit: {{ servitium.status }}</p>
+            <p>Status: {{ servitium.status }}</p>
 
             {% if message %}
                 <div class="alert alert-success" role="alert">
@@ -51,13 +52,22 @@
                         <button id="request_servitium" class="btn btn-primary">Request Servitium!</button>
                     </form>
                 {% elif servitium.status == 'Pending' %}
-                    <button type="button" class="btn btn-info" disabled>Pending another user</button>
+                    {% if user == inquiry.receiver %}
+                        <button type="button" class="btn btn-info" disabled>Requested</button>
+                    {% else %}
+                        <button type="button" class="btn btn-info" disabled>Pending another user</button>
+                    {% endif %}
+                {% elif servitium.status == 'Handshaken' %}
+
                 {% endif %}
             {% elif user == servitium.owner %}
                 {% if servitium.status == 'Pending' %}
                     <h3>{{ inquiry.receiver}} is requesting this servitium from you!</h3>
-                    <button type="button" class="btn btn-success">Accept Request!</button>
-                    <button type="button" class="btn btn-danger">Reject</button>
+                    <form method="POST" action="{% url 'accept_request' servitium.id %}">
+                        {% csrf_token %}
+                        <button id="accept_request" class="btn btn-success">Accept Request!</button>
+                        <button type="button" class="btn btn-danger">Reject</button>
+                    </form>
                 {% endif %}
             {% endif%}
         </div>

@@ -83,7 +83,11 @@ def servitium_detail(request, servitium_pk):
     servitium = get_object_or_404(Servitium, id=servitium_pk)
     if request.method == 'GET':
         form = ServitiumForm(instance=servitium)
-        inquiry = Inquiry.objects.get(servitium=servitium)
+        try:
+            inquiry = Inquiry.objects.get(servitium=servitium)
+        except Inquiry.DoesNotExist:
+            inquiry = None
+
         return render(request, 'servitiums/servitium.html', {'servitium': servitium, 'inquiry': inquiry, 'form': form})
     else:
         try:
@@ -97,7 +101,7 @@ def servitium_detail(request, servitium_pk):
 def request_servitium(request, servitium_pk):
     servitium = get_object_or_404(Servitium, pk=servitium_pk)
     if request.method == 'POST':
-        Inquiry.objects.create(servitium= servitium, receiver=request.user, status=Status.PENDING.value)
+        Inquiry.objects.get_or_create(servitium=servitium, receiver=request.user, status=Status.PENDING.value)
 
         servitium.status = Status.PENDING.value
         servitium.save()
@@ -114,10 +118,15 @@ def accept_request(request, servitium_pk):
         print(inquiry.receiver)
         receiver = inquiry.receiver
         receiver.credit -= servitium.credit
+        receiver.save()
 
         inquiry.status = Status.HANDSHAKEN.value
+        inquiry.save()
+
         servitium.status = Status.HANDSHAKEN.value
+        servitium.save()
 
         message = 'You accepted the servitium request. Your contact info will be shared with the requester.'
 
-    return render(request, 'servitiums/servitium.html', {'servitium': servitium, 'inquiry': inquiry, 'message': message, 'status': 'Handshaken'})
+    return render(request, 'servitiums/servitium.html',
+                  {'servitium': servitium, 'inquiry': inquiry, 'message': message, 'status': 'Handshaken'})
