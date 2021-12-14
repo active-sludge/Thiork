@@ -26,7 +26,7 @@
                         <a class="nav-link px-2 text-white" href="/"><i class="bi bi-hourglass"> {{ user.credit }} </i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-2 text-white" href="/">Hello, {{ user.get_username }}</a>
+                        <a class="nav-link px-2 text-white" href="{% url 'profilepage' %}">Hello, {{ user.get_username }}</a>
                     </li>
                     <li class="nav-item">
                         <a href="#" onclick="$('#signOutBtn').click()" class="nav-link px-2 text-white"><i class="bi bi-door-closed"></i></a>

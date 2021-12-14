@@ -146,3 +146,7 @@ def reject_request(request, servitium_pk):
 
     return render(request, 'servitiums/servitium.html',
                   {'servitium': servitium, 'message': message, 'status': 'Available'})
+
+
+def profile_page(request):
+    return render(request, 'pages/profilePage.html')

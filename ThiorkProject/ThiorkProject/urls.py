@@ -12,6 +12,7 @@ urlpatterns = [
     path('signup', views.sign_up_user, name='signupuser'),
     path('logout', views.log_out_user, name='logoutuser'),
     path('login', views.log_in_user, name='loginuser'),
+    path('profile', views.profile_page, name='profilepage'),
 
     # Pages
     path('', views.index, name='index'),
