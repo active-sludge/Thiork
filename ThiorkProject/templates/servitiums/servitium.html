@@ -66,7 +66,11 @@
                     <form method="POST" action="{% url 'accept_request' servitium.id %}">
                         {% csrf_token %}
                         <button id="accept_request" class="btn btn-success">Accept Request!</button>
-                        <button type="button" class="btn btn-danger">Reject</button>
+                    </form>
+                    <br>
+                    <form method="POST" action="{% url 'reject_request' servitium.id %}">
+                        {% csrf_token %}
+                        <button id="reject_request" class="btn btn-danger">Reject</button>
                     </form>
                 {% endif %}
             {% endif%}

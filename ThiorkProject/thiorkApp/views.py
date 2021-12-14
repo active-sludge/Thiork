@@ -130,3 +130,19 @@ def accept_request(request, servitium_pk):
 
     return render(request, 'servitiums/servitium.html',
                   {'servitium': servitium, 'inquiry': inquiry, 'message': message, 'status': 'Handshaken'})
+
+
+def reject_request(request, servitium_pk):
+    servitium = get_object_or_404(Servitium, pk=servitium_pk)
+    if request.method == 'POST':
+        inquiry = Inquiry.objects.get(servitium=servitium)
+        print(inquiry.receiver)
+        inquiry.delete()
+
+        servitium.status = Status.AVAILABLE.value
+        servitium.save()
+
+        message = 'You rejected the servitium request.'
+
+    return render(request, 'servitiums/servitium.html',
+                  {'servitium': servitium, 'message': message, 'status': 'Available'})
