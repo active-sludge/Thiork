@@ -21,11 +21,12 @@
                     {{ error }}
                 </div>
             {% elif inquiry.status == 'Handshaken' %}
+                <h3>Handshaken!</h3>
                 {% if user == inquiry.receiver  %}
                     <div class="alert alert-success" role="alert">
-                        <h3>Handshaken!</h3>
-                        <p>You can reach to the servitium owner now with below information.</p>
-                        <p>Contact Info</p>
+                            <p>You can reach to the servitium owner now with below information:</p>
+                            <p>{{ servitium.owner }}</p>
+                            <p>{{ servitium.owner.email }}</p>
                     </div>
                 {% endif %}
             {% endif %}
