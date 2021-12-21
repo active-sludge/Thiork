@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'thiorkApp',
     'crispy_forms',
+    'location_field.apps.DefaultConfig',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,12 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 AUTH_USER_MODEL = 'thiorkApp.Vectis'
 
+
+LOCATION_FIELD = {
+    'map.provider': 'google',
+    'search.provider': 'google',
+    'provider.google.api': '//maps.google.com/maps/api/js',
+    'provider.google.api_key': 'AIzaSyB0r49TMbL-N1-hBUtRKFSJ4azVbG1o0H8',
+    'provider.google.api_libraries': '',
+    'provider.google.map.type': 'ROADMAP',
+}

@@ -1,5 +1,8 @@
+from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import ModelForm, forms
+from django.forms import ModelForm
+from location_field.models.plain import PlainLocationField
+
 from .models import Servitium, Vectis
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Row, Column
@@ -22,10 +25,12 @@ class VectisForm(UserCreationForm):
         self.helper.add_input(Submit('sign_up', 'Sign Up'))
 
 
-class ServitiumForm(ModelForm):
+class ServitiumForm(ModelForm, forms.Form):
+    location = PlainLocationField(based_fields=['city'])
+
     class Meta:
         model = Servitium
-        fields = ['title', 'description', 'location', 'credit', 'image']
+        fields = ['title', 'description', 'city', 'location', 'credit', 'image']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

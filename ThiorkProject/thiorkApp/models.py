@@ -1,7 +1,7 @@
 from enum import Enum
-
 from django.db import models
-from django.contrib.auth.models import User, AbstractUser
+from django.contrib.auth.models import AbstractUser
+from location_field.models.plain import PlainLocationField
 
 
 class Status(Enum):
@@ -27,7 +27,8 @@ class Servitium(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     publish_date = models.DateTimeField(auto_now_add=True, blank=True)
-    location = models.CharField(max_length=200)
+    city = models.CharField(max_length=255, default='Istanbul')
+    location = PlainLocationField(based_fields=['city'], zoom=5)
     credit = models.IntegerField()
     status = models.CharField(max_length=200)
     image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True)

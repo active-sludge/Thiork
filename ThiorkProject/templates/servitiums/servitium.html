@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Servitium</title>
+    {{ form.media }}
 </head>
 
 <body>
@@ -36,9 +37,11 @@
 {#            <p>{{ servitium.id }}</p>#}
             <p>Given by: {{ servitium.owner }}</p>
             <p>Published at: {{ servitium.publish_date|date:'D, d M Y' }}</p>
-            <p>Location: {{ servitium.location }}</p>
+            <p>Location: {{ servitium.city }}</p>
+            <p> {{ form.location }} </p>
             <p>Credit: {{ servitium.credit }} h</p>
             <p>Status: {{ servitium.status }}</p>
+
 
             {% if message %}
                 <div class="alert alert-success" role="alert">
