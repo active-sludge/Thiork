@@ -30,7 +30,7 @@ class Servitium(models.Model):
     city = models.CharField(max_length=255, default='Istanbul')
     location = PlainLocationField(based_fields=['city'], zoom=5)
     credit = models.IntegerField()
-    status = models.CharField(max_length=200)
+    status = models.CharField(max_length=200, default='Available')
     image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True)
     is_published = models.BooleanField(default=True)
 
