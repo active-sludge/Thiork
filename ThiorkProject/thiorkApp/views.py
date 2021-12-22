@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from psycopg2 import IntegrityError
-from .forms import ServitiumForm
+from .forms import ServitiumForm, VectisForm
 from .models import Servitium, Vectis, Inquiry, Status
 from django.template import Context
 
@@ -19,14 +19,21 @@ def about(request):
 
 def sign_up_user(request):
     if request.method == "GET":
-        return render(request, 'pages/signup.html', {'form': UserCreationForm()})
+        return render(request, 'pages/signup.html', {'form': VectisForm()})
     else:
         if request.POST['password1'] == request.POST['password2']:
             try:
-                vectis = Vectis.objects.create_user(request.POST['username'], password=request.POST['password1'])
-                vectis.save()
-                login(request, vectis)
-                return redirect('index')
+                form = VectisForm(data=request.POST, files=request.FILES)
+                if form.is_valid():
+                    vectis = form.save(commit=False)
+                    vectis.save()
+                    login(request, vectis)
+                    return redirect('index')
+
+                return render(request, 'pages/signup.html',
+                              {'form': form,
+                               'error': form.errors})
+
             except IntegrityError:
                 return render(request, 'pages/signup.html',
                               {'form': UserCreationForm(),
@@ -120,6 +127,10 @@ def accept_request(request, servitium_pk):
         receiver.credit -= servitium.credit
         receiver.save()
 
+        owner = inquiry.servitium.owner
+        owner.credit += servitium.credit
+        owner.save()
+
         inquiry.status = Status.HANDSHAKEN.value
         inquiry.save()
 
@@ -149,4 +160,10 @@ def reject_request(request, servitium_pk):
 
 
 def profile_page(request):
-    return render(request, 'pages/profilePage.html')
+    servitiums = Servitium.objects.filter(owner=request.user)
+
+    context = {
+        'profile': request.user,
+        'servitiums': servitiums,
+    }
+    return render(request, 'pages/profilePage.html', context)

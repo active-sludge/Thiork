@@ -1,7 +1,7 @@
 from enum import Enum
-
 from django.db import models
-from django.contrib.auth.models import User, AbstractUser
+from django.contrib.auth.models import AbstractUser
+from location_field.models.plain import PlainLocationField
 
 
 class Status(Enum):
@@ -14,9 +14,8 @@ class Status(Enum):
 class Vectis(AbstractUser):
     pass
     credit = models.IntegerField(default=5)
-    photo = models.ImageField(blank=True)
+    photo = models.ImageField(upload_to='profile_photos/%Y/%m/%d/', blank=True, default='ceyda.jpeg')
     bio = models.TextField(blank=True)
-    email = models.EmailField(blank=True)
 
     def __str__(self):
         return self.username
@@ -28,9 +27,10 @@ class Servitium(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     publish_date = models.DateTimeField(auto_now_add=True, blank=True)
-    location = models.CharField(max_length=200)
+    city = models.CharField(max_length=255, default='Istanbul')
+    location = PlainLocationField(based_fields=['city'], zoom=5)
     credit = models.IntegerField()
-    status = models.CharField(max_length=200)
+    status = models.CharField(max_length=200, default='Available')
     image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True)
     is_published = models.BooleanField(default=True)
 
