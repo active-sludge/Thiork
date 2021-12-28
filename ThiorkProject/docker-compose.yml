@@ -11,7 +11,7 @@ services:
     environment:
       - POSTGRES_DB=thiorkdb
       - POSTGRES_USER=thiorkdb
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=thiorkdb
     ports:
       - "5432:5432"
   web:
