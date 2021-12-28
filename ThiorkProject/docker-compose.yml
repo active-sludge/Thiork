@@ -9,9 +9,9 @@ services:
     networks:
       - djangonetworks
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=thiorkdb
+      - POSTGRES_USER=thiorkdb
+      - POSTGRES_PASSWORD=thiorkdb
     ports:
       - "5432:5432"
   web:
