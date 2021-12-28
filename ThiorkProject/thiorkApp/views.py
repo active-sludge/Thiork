@@ -167,3 +167,50 @@ def profile_page(request):
         'servitiums': servitiums,
     }
     return render(request, 'pages/profilePage.html', context)
+
+
+def complete_servitium(request, servitium_pk):
+    servitium = get_object_or_404(Servitium, pk=servitium_pk)
+    if request.method == 'POST':
+        inquiry = Inquiry.objects.get(servitium=servitium)
+        inquiry.status = Status.COMPLETED.value
+        inquiry.save()
+
+        servitium.status = Status.COMPLETED.value
+        servitium.save()
+
+        message = 'Congratulations! You completed the servitium.'
+
+    return render(request, 'servitiums/servitium.html',
+                  {'servitium': servitium, 'message': message, 'status': 'Completed'})
+
+
+def cancel_servitium(request, servitium_pk):
+    servitium = get_object_or_404(Servitium, pk=servitium_pk)
+    if request.method == 'POST':
+        inquiry = Inquiry.objects.get(servitium=servitium)
+        inquiry.delete()
+
+        servitium.status = Status.AVAILABLE.value
+        servitium.save()
+
+        message = 'You canceled the servitium.'
+
+    return render(request, 'servitiums/servitium.html',
+                  {'servitium': servitium, 'message': message, 'status': 'Available'})
+
+
+def rate_servitium(request, servitium_pk):
+    servitium = get_object_or_404(Servitium, pk=servitium_pk)
+    if request.method == 'POST':
+        inquiry = Inquiry.objects.get(servitium=servitium)
+        print(inquiry.receiver)
+        inquiry.delete()
+
+        servitium.status = Status.AVAILABLE.value
+        servitium.save()
+
+        message = 'You rated this servitium! Thanks for the feedback.'
+
+    return render(request, 'servitiums/servitium.html',
+                  {'servitium': servitium, 'message': message, 'status': 'Available'})
