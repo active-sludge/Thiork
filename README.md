@@ -16,7 +16,6 @@ Servitiums can be;
 -	Teaching how to cook a dish
 Servitiums are not meant to be professional services but rather a kind act that you would do to your neighbor.
 This web app is dedicated to be a safe hub for these services to be exchanged and recorded.
-![image](https://user-images.githubusercontent.com/58622770/147680532-a7cae1bf-02cc-4f88-8871-61e167da87c5.png)
  
 
 ## Features
