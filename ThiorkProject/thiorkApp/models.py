@@ -49,13 +49,14 @@ class Inquiry(models.Model):
 
 class Eventum(models.Model):
     host = models.ForeignKey(Vectis, on_delete=models.DO_NOTHING, related_name='eventum_host')
+    max_number_of_attendees = models.IntegerField(default=5)
     attendes = models.ManyToManyField(Vectis, through='Attendance', through_fields=('eventum', 'attendee'))
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    date = models.DateTimeField(auto_now_add=True, blank=True)
-    location = models.CharField(max_length=200)
-    credit = models.IntegerField()
-    status = models.CharField(max_length=200)
+    date = models.DateTimeField(blank=True)
+    city = models.CharField(max_length=255, default='Istanbul')
+    location = PlainLocationField(based_fields=['city'], zoom=5)
+    status = models.CharField(max_length=200, default='Available')
     image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True)
     is_published = models.BooleanField(default=True)
 
