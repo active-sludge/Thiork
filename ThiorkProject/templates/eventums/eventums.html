@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Servitiums</title>
+</head>
+<body>
+{% block content %}
+
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">
+                {% if all_eventums %}
+                    <h1> {{ all_eventums.count }} Eventum{{ all_eventums.count|pluralize }}</h1>
+                {% else %}
+                    <h1> Eventums </h1>
+                {% endif %}
+            </h1>
+            </p>
+        </div>
+    </section>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                {% if all_eventums %}
+                    {% for eventum in all_eventums %}
+                        <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                                {% if eventum.image %}
+                                    <img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="{{ servitium.image.url }}" data-holder-rendered="true">
+                                {% endif %}
+                                <div class="card-body">
+                                    <p>{{ eventum.description|truncatewords:20 }}</p>
+                                    <p>Hosted by: {{ eventum.host }}</p>
+                                    <p>Starts at: {{ eventum.date|date:'d M Y, D H:m' }}</p>
+                                    <p>Location: {{ eventum.city }}</p>
+                                    <p>Max No of Attendee: {{ eventum.max_number_of_attendees }}</p>
+                                    <p>Available seats: {{ eventum.available_seats }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <a href="{% url 'eventum_detail' eventum.id %}">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary">View Details</button>
+                                            </a>
+{#                                            <button type="button" class="btn btn-sm btn-outline-secondary">Request Servitium!</button>#}
+                                        </div>
+                                        <small class="text-muted">{{ eventum.status }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+</body>
+</html>

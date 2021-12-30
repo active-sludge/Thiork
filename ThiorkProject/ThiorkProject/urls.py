@@ -30,6 +30,9 @@ urlpatterns = [
     path('servitium/<int:servitium_pk>/rate', views.rate_servitium, name='rate_servitium'),
 
     # Eventum
+    path('eventums', views.eventums, name='eventums'),
+    path('create_eventum', views.create_eventum, name='create_eventum'),
+    path('eventum/<int:eventum_pk>', views.eventum_detail, name='eventum_detail'),
 
 
 

@@ -4,8 +4,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from psycopg2 import IntegrityError
-from .forms import ServitiumForm, VectisForm
-from .models import Servitium, Vectis, Inquiry, Status
+from .forms import ServitiumForm, VectisForm, EventumForm
+from .models import Servitium, Vectis, Inquiry, Status, Eventum
 from django.template import Context
 
 
@@ -214,3 +214,32 @@ def rate_servitium(request, servitium_pk):
 
     return render(request, 'servitiums/servitium.html',
                   {'servitium': servitium, 'message': message, 'status': 'Available'})
+
+
+def eventums(request):
+    all_eventums = Eventum.objects.all()
+    return render(request, 'eventums/eventums.html', {'all_eventums': all_eventums})
+
+
+def create_eventum(request):
+    eventum_form = EventumForm()
+    if request.method == 'GET':
+        return render(request, 'eventums/create_eventum.html', {'form': eventum_form})
+    else:
+        try:
+            form = EventumForm(request.POST, request.FILES)
+            print(request.POST)
+            print(form.is_valid())
+            print(form.errors)
+            if form.is_valid():
+                new_eventum = form.save(commit=False)
+                new_eventum.host = request.user
+                new_eventum.save()
+                return redirect('eventums')
+        except ValueError:
+            return render(request, 'eventums/create_eventum.html',
+                          {'form': form, 'error': 'Bad data entry. Try again.'})
+
+
+def eventum_detail(request):
+    return None
