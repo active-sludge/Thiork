@@ -31,7 +31,7 @@
                         <div class="col-md-4">
                             <div class="card mb-4 box-shadow">
                                 {% if eventum.image %}
-                                    <img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="{{ servitium.image.url }}" data-holder-rendered="true">
+                                    <img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="{{ eventum.image.url }}" data-holder-rendered="true">
                                 {% endif %}
                                 <div class="card-body">
                                     <p>{{ eventum.description|truncatewords:20 }}</p>
