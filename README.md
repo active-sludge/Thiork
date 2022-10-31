@@ -1,11 +1,8 @@
 # Thiork
-Welcome BOUN SWE 573 class project.
 
 <br />
 <p align="center">
     <img src=thiork_logo.png alt="Logo" width=“200>
-
-This project was prepared to demonstrate how genius and handsome I am. 
 
 Your first step would be to explore the [Wiki](https://github.com/active-sludge/Thiork/wiki) pages. I have spent good time on those pages. So don’t skip.
     
